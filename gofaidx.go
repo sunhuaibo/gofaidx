@@ -131,7 +131,7 @@ func (s *Sequence) CalculateGC() float32 {
 
 // The complexity is defined as the percentage of base that is different from its before base (base[i] != base[i-1]). For example:
 // a 21-bp sequence, with 3 bases that is different from its next base
-// seq = "AAAAAATTTTTCCCCCCCCCC"
+// seq = "AAAAAATTTTTCCCCCCCGGG"
 // complexity = 3 / (21-1) = 15%
 // if len(seq) <= 1, return 0
 func (s *Sequence) CalculateComplexity() float32 {
