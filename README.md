@@ -1,6 +1,6 @@
 # gofaidx
 
-To read a subsequence from fasta
+get a subsequence from fasta
 
 ```go
 idx, err := NewFaidx("fasta")
