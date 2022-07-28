@@ -1,3 +1,10 @@
+/*
+	Author: Huaibo Sun
+	Data:   2022-07-28
+	E-mail: huaibo_sun@foxmail.com
+	license: MIT license
+*/
+
 package gofaidx
 
 import (
