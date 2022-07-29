@@ -56,8 +56,8 @@ func NewFaidx(fasta string) (*Faidx, error) {
 	return &Faidx{File: file, idx: idx, rdr: fna}, nil
 }
 
-// Fetch takes a region and return a *Sequence.
-// 0-base
+// Fetch a region and return a *Sequence.
+// 0-base.
 func (f *Faidx) Fetch(chrom string, start, end int) (*Sequence, error) {
 
 	fetchError := errors.New("error: unknow sequence name or start less than zero or end less than start")
@@ -90,7 +90,7 @@ func (f *Faidx) Fetch(chrom string, start, end int) (*Sequence, error) {
 }
 
 // At takes a single point and returns the single base.
-// 0-base
+// 0-base.
 func (f *Faidx) At(chrom string, pos int) (string, error) {
 	seq, err := f.Fetch(chrom, pos, pos+1)
 	if err != nil {
@@ -105,7 +105,7 @@ func (f *Faidx) Close() {
 	f.rdr.(io.Closer).Close()
 }
 
-// Calculate GC content
+// Calculate GC content.
 func (s *Sequence) CalculateGC() float32 {
 	if s.Len == 0 {
 		return 0
@@ -130,10 +130,10 @@ func (s *Sequence) CalculateGC() float32 {
 }
 
 // The complexity is defined as the percentage of base that is different from its before base (base[i] != base[i-1]). For example:
-// a 21-bp sequence, with 3 bases that is different from its next base
-// seq = "AAAAAATTTTTCCCCCCCGGG"
-// complexity = 3 / (21-1) = 15%
-// if len(seq) <= 1, return 0
+// a 21-bp sequence, with 3 bases that is different from its next base,
+// seq = "AAAAAATTTTTCCCCCCCGGG" ,
+// complexity = 3 / (21-1) = 15%,
+// if len(seq) <= 1, return 0.
 func (s *Sequence) CalculateComplexity() float32 {
 	num := 0
 
@@ -151,8 +151,8 @@ func (s *Sequence) CalculateComplexity() float32 {
 	return complexity
 }
 
-// count the number of CpGs from given Sequence
-// CGC or GCG counts as 1 CpG
+// count the number of CpGs from given Sequence.
+// CGC or GCG counts as 1 CpG.
 func (s *Sequence) CountCpG() int {
 	cpgCnt := 0
 	lastIsCpG := false
