@@ -102,7 +102,9 @@ func (f *Faidx) At(chrom string, pos int) (string, error) {
 
 // Close the associated Reader.
 func (f *Faidx) Close() {
-	f.rdr.(io.Closer).Close()
+	if rdr, ok := f.rdr.(io.Closer); ok {
+		rdr.Close()
+	}
 }
 
 // Calculate GC content.
@@ -110,22 +112,22 @@ func (s *Sequence) CalculateGC() float32 {
 	if s.Len == 0 {
 		return 0
 	}
-	posAs, posTs, posGs, posCs := 0, 0, 0, 0
+	baseA, baseT, baseG, baseC := 0, 0, 0, 0
 	for _, base := range s.Seq {
-		switch string(base) {
-		case "A", "a":
-			posAs++
-		case "T", "t":
-			posTs++
-		case "G", "g":
-			posGs++
-		case "C", "c":
-			posCs++
+		switch base {
+		case 'A', 'a':
+			baseA++
+		case 'T', 't':
+			baseT++
+		case 'G', 'g':
+			baseG++
+		case 'C', 'c':
+			baseC++
 		}
 	}
 
-	gcNum := posGs + posCs
-	gc := float32(gcNum) / float32(s.Len)
+	gcCnt := baseG + baseC
+	gc := float32(gcCnt) / float32(s.Len)
 	return gc
 }
 
@@ -135,7 +137,7 @@ func (s *Sequence) CalculateGC() float32 {
 // complexity = 3 / (21-1) = 15%,
 // if len(seq) <= 1, return 0.
 func (s *Sequence) CalculateComplexity() float32 {
-	num := 0
+	cnt := 0
 
 	if len(s.Seq) <= 1 {
 		return 0
@@ -143,11 +145,11 @@ func (s *Sequence) CalculateComplexity() float32 {
 
 	for i := 1; i < len(s.Seq); i++ {
 		if s.Seq[i] != s.Seq[i-1] {
-			num++
+			cnt++
 		}
 	}
 
-	complexity := float32(num) / float32(s.Len-1)
+	complexity := float32(cnt) / float32(s.Len-1)
 	return complexity
 }
 
